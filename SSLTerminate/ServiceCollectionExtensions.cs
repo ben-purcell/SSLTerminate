@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using SSLTerminate.ACME;
 using SSLTerminate.CertificateLookup;
@@ -7,6 +8,7 @@ using SSLTerminate.Stores;
 using SSLTerminate.Utils;
 using SSLTerminate.Whitelist;
 
+[assembly: InternalsVisibleTo("SSLTerminate.Tests")]
 namespace SSLTerminate
 {
     public static class ServiceCollectionExtensions
@@ -29,7 +31,7 @@ namespace SSLTerminate
 
             services.AddTransient<ICertificateLookupService, CertificateLookupService>();
             services.AddTransient<ICertificateFactory, CertificateFactory>();
-            services.AddTransient<CertificateRequestFactory, CertificateRequestFactory>();
+            services.AddTransient<ICertificateRequestFactory, CertificateRequestFactory>();
 
             AddHostCheck(services, config);
 

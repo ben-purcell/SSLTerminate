@@ -8,7 +8,7 @@ namespace SSLTerminate.Whitelist
     {
         public static IServiceCollection AddAllowedHosts(
             this IServiceCollection services,
-            Action<InMemoryWhitelistServiceConfig> options)
+            Action<FixedHostsWhitelistServiceConfig> options)
         {
             services.Configure(options);
 

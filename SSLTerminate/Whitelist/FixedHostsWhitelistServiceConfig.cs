@@ -2,7 +2,7 @@
 
 namespace SSLTerminate.Whitelist
 {
-    public class InMemoryWhitelistServiceConfig
+    public class FixedHostsWhitelistServiceConfig
     {
         [Required]
         public string[] AllowedHosts { get; set; }

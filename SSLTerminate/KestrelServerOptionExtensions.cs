@@ -1,14 +1,11 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net;
 using System.Net.Security;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,17 +43,20 @@ namespace SSLTerminate
 
         private static void AddHttpsListener(KestrelServerOptions options)
         {
-            async ValueTask<SslServerAuthenticationOptions> LookupCertificate(SslStream stream, SslClientHelloInfo info, object? state, CancellationToken token)
+            async ValueTask<SslServerAuthenticationOptions> LookupCertificate(SslStream stream, SslClientHelloInfo info, object state, CancellationToken token)
             {
-                var certLookupService = options.ApplicationServices.GetService<ICertificateLookupService>();
+                var certLookupService = options.ApplicationServices.GetRequiredService<ICertificateLookupService>();
 
-                var config = options.ApplicationServices.GetService<IConfiguration>();
+                var config = options.ApplicationServices.GetRequiredService<IConfiguration>();
 
-                var fqdn = config["SSLTerminate:TestHost"] ?? info.ServerName;
+                var host = config["SSLTerminate:TestHost"] ?? info.ServerName;
 
-                var certificate = await certLookupService.GetForHostAsync(fqdn, token);
+                var certificate = await certLookupService.GetForHostAsync(host, token);
 
-                return new SslServerAuthenticationOptions { ServerCertificate = certificate };
+                return new SslServerAuthenticationOptions
+                {
+                    ServerCertificate = certificate
+                };
             }
 
             var httpUrls = GetListeningUrls("https");
@@ -76,7 +76,7 @@ namespace SSLTerminate
                         httpPort, 
                         listenOptions => listenOptions.UseHttps(LookupCertificate,
                         state: new object(),
-                        handshakeTimeout: TimeSpan.FromSeconds(45)));
+                        handshakeTimeout: TimeSpan.FromMinutes(1)));
             }
         }
 

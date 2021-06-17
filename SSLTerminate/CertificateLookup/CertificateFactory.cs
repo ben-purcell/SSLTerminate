@@ -22,7 +22,7 @@ namespace SSLTerminate.CertificateLookup
         private readonly IAcmeClientFactory _acmeClientFactory;
         private readonly IAcmeAccountStore _acmeAccountStore;
         private readonly IKeyAuthorizationsStore _keyAuthorizationsStore;
-        private readonly CertificateRequestFactory _certificateRequestFactory;
+        private readonly ICertificateRequestFactory _certificateRequestFactory;
         private readonly ILogger<CertificateFactory> _logger;
         private readonly SslTerminateConfig _config;
 
@@ -30,7 +30,7 @@ namespace SSLTerminate.CertificateLookup
             IAcmeClientFactory acmeClientFactory,
             IAcmeAccountStore acmeAccountStore,
             IKeyAuthorizationsStore keyAuthorizationsStore,
-            CertificateRequestFactory certificateRequestFactory,
+            ICertificateRequestFactory certificateRequestFactory,
             IOptions<SslTerminateConfig> config,
             ILogger<CertificateFactory> logger)
         {

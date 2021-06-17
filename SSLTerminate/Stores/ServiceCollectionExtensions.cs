@@ -7,7 +7,7 @@ using SSLTerminate.Stores.KeyAuthorizations;
 
 namespace SSLTerminate.Stores
 {
-    static class ServiceCollectionExtensions
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddFileSystemCertificateStore(
             this IServiceCollection services,

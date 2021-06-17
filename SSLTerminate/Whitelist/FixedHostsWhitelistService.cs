@@ -8,9 +8,9 @@ namespace SSLTerminate.Whitelist
     class FixedHostsWhitelistService : IWhitelistService
     {
         private readonly ILogger<FixedHostsWhitelistService> _logger;
-        private readonly InMemoryWhitelistServiceConfig _config;
+        private readonly FixedHostsWhitelistServiceConfig _config;
 
-        public FixedHostsWhitelistService(IOptions<InMemoryWhitelistServiceConfig> config, ILogger<FixedHostsWhitelistService> logger)
+        public FixedHostsWhitelistService(IOptions<FixedHostsWhitelistServiceConfig> config, ILogger<FixedHostsWhitelistService> logger)
         {
             _logger = logger;
             _config = config.Value;

@@ -3,7 +3,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace SSLTerminate.Utils
 {
-    class CertificateRequestFactory
+    class CertificateRequestFactory : ICertificateRequestFactory
     {
         public (byte[] privateKey, byte[] csr) Create(string host)
         {
