@@ -18,7 +18,7 @@ namespace SSLTerminate.Tests.Unit.CertificateLookup
     public class CertificateLookupTests
     {
         [Test]
-        public async Task certificate_from_store_is_served()
+        public async Task existing_certificate_from_store_is_served()
         {
             var dummyCertificate = DummyCertificate.One();
 
@@ -32,7 +32,7 @@ namespace SSLTerminate.Tests.Unit.CertificateLookup
         }
 
         [Test]
-        public async Task if_host_is_whitelisted_but_doesnt_exist_in_store_then_new_cert_is_created_and_stored()
+        public async Task certificate_can_be_created_for_whitelisted_host()
         {
             var newCertificate = DummyCertificate.Two();
 
