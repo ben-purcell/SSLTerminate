@@ -8,7 +8,7 @@ Notes:
 
 ## Usage
 
-There are 2 middlewares/handlers that need to be added.
+Basic usage is a 2 step process:
 
 1. **Configure Kestrel to respond to HTTPS requests with certificate lookup**. This would typically done within ```Program.cs```, 
 note the ```options.UseSslTerminateCertificates()``` line:
