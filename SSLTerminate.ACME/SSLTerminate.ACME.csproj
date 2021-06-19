@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <PackageId>SSLTerminate.ACME</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Ben Purcell</Authors>
     <Description>
       ACME v2 client for working with Let's Encrypt or other ACME v2 servers
     </Description>
-    <PackageProjectUrl>https://github.com/ben-purcell/SSLTerminate.ACME</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/ben-purcell/SSLTerminate/tree/master/SSLTerminate.ACME</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
