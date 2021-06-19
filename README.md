@@ -27,8 +27,9 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
         });
 ```
 
-2. Add middleware to respond to http-01 challenges. For this to work in a live environment the http-01 challenge middleware
- **MUST be served on port 80** this is how the ACME protocol is implemented. See the [https://datatracker.ietf.org/doc/html/rfc8555#section-8.3](spec) on
+2. Add middleware to respond to http-01 challenges. In a live environment http-01 challenge middleware
+ **MUST be served on port 80** - this is a limitation in how the ACME protocol is implemented and so won't
+ be changing. See the [https://datatracker.ietf.org/doc/html/rfc8555#section-8.3](spec) on
 http-01 challenges for details.
 
 This would typically be done within ```Startup.cs``` and looks like:
