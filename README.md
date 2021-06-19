@@ -106,10 +106,10 @@ services.AddFileSystemAccountStore(opts => opts.AcmeAccountPath = <path-to-file>
 
 ## Limitations
 
-1. Deals with http-01 challenges only, so **no wildcard certs**.
-2. Storage is file only for now.
-3. Url's/Ports that the app is served on must be configured using a mechanism that sets the ASPNETCORE_URLS environment variable.
-4. To deal with http-01 challenges, the app MUST be open on port 80. SSL traffic will still need the https port open.
+1. Deals with http-01 challenges only, so **no wildcard certs**
+2. Storage is file only for now
+3. Url's/Ports that the app is served on must be configured using a mechanism that sets the ASPNETCORE_URLS environment variable
+4. To deal with http-01 challenges, the app MUST be open on port 80. SSL traffic will still need the https port open
 
 ## Example
 
