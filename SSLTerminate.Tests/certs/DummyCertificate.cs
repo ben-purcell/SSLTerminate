@@ -13,13 +13,13 @@ namespace SSLTerminate.Tests.Certs
     {
         private static readonly Lazy<X509Certificate2> CertificateOne = new Lazy<X509Certificate2>(
             () => X509Certificate2.CreateFromPemFile(
-                certPemFilePath: @"certs\one.pem", 
-                keyPemFilePath: @"certs\one_key.pem"));
+                certPemFilePath: Path.Join("certs", "one.pem"),
+                keyPemFilePath: Path.Join("certs", "one_key.pem")));
 
         private static readonly Lazy<X509Certificate2> CertificateTwo = new Lazy<X509Certificate2>(
             () => X509Certificate2.CreateFromPemFile(
-                certPemFilePath: @"certs\two.pem",
-                keyPemFilePath: @"certs\two_key.pem"));
+                certPemFilePath: Path.Join("certs", "two.pem"),
+                keyPemFilePath: Path.Join("certs", "two_key.pem")));
         public static X509Certificate2 One()
         {
             return CertificateOne.Value;
