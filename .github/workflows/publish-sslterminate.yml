@@ -5,12 +5,11 @@ on:
       - master
 
 env:
-  PROJECT_PATH: SSLTerminate.ACME
   PACKAGE_OUTPUT_PATH: ${{ github.workspace }}/output
   NUGET_SOURCE: https://api.nuget.org/v3/index.json
 
 jobs:
-  build_test_and_deploy:
+  build_test_and_publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,16 +21,13 @@ jobs:
           dotnet-version: '5.0.x'
       
       - name: Build
-        run:  dotnet build ${{ env.PROJECT_PATH }} --configuration=Release
+        run:  dotnet build --configuration=Release
 
       - name: Test
         run:  dotnet test
 
       - name: Pack
-        run:  |
-          dotnet pack ${{ env.PROJECT_PATH }} \
-            --no-build --no-restore --configuration=Release \
-            -o ${{ env.PACKAGE_OUTPUT_PATH }}
+        run:  dotnet pack --no-build --no-restore --configuration=Release -o ${{ env.PACKAGE_OUTPUT_PATH }}
 
       - name: Publish
         run:  |
