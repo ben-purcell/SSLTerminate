@@ -59,6 +59,8 @@ namespace HelloWebApp
             // listen for http 01 challenges where necessary
             app.UseHttp01ChallengeHandler();
 
+            app.UseHttpsRedirection();
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
