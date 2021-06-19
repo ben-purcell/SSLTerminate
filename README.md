@@ -3,7 +3,7 @@
 Middleware to handle serving an ASP.NET Core application via Kestrel. Written in C#/.NET 5.
 
 Note:
-If you simply want a client to interact with an ACME v2 server directly, use [SSLTerminate.ACME/README.md](SSLTerminate.ACME)
+If you simply want a client to interact with an ACME v2 server directly, use [SSLTerminate.ACME](SSLTerminate.ACME/README.md)
 
 ## Usage
 
