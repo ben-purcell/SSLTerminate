@@ -9,6 +9,12 @@ namespace SSLTerminate.Tests.Fakes
     {
         private readonly Dictionary<string, string> _keyAuthorizations = new Dictionary<string, string>();
 
+        public FakeKeyAuthorizationsStore With(string token, string keyAuthorization)
+        {
+            _keyAuthorizations[token] = keyAuthorization;
+            return this;
+        }
+
         public Task<string> GetKeyAuthorization(string token)
         {
             var result = _keyAuthorizations.TryGetValue(token, out var keyAuth)
@@ -20,7 +26,7 @@ namespace SSLTerminate.Tests.Fakes
 
         public Task Store(string token, string keyAuthorization)
         {
-            _keyAuthorizations[token] = keyAuthorization;
+            With(token, keyAuthorization);
             return Task.CompletedTask;
         }
 

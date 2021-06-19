@@ -95,7 +95,7 @@ namespace SSLTerminate.CertificateLookup
             return certificate;
         }
 
-        private static async Task<AcmeOrderResponse> WaitForChallengeToComplete(
+        private async Task<AcmeOrderResponse> WaitForChallengeToComplete(
             IAcmeClient acmeClient, 
             AcmeAccountKeys accountKeys, 
             AcmeOrderResponse order,
@@ -107,12 +107,14 @@ namespace SSLTerminate.CertificateLookup
                 statuses: new[]
                 {
                     AcmeOrderStatus.Pending
-                });
+                },
+                pollFrequencySeconds: _config.AcmeChallengePollFrequencySeconds,
+                cancellationToken: cancellationToken);
 
             return order;
         }
 
-        private static async Task<AcmeOrderResponse> WaitForCertificateToBeAvailable(
+        private async Task<AcmeOrderResponse> WaitForCertificateToBeAvailable(
             IAcmeClient acmeClient, AcmeAccountKeys accountKeys, 
             AcmeOrderResponse order,
             CancellationToken cancellationToken)
@@ -126,7 +128,9 @@ namespace SSLTerminate.CertificateLookup
                     {
                         AcmeOrderStatus.Ready,
                         AcmeOrderStatus.Processing
-                    });
+                    },
+                    pollFrequencySeconds: _config.AcmeChallengePollFrequencySeconds,
+                    cancellationToken: cancellationToken);
             }
 
             return order;

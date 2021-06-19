@@ -24,7 +24,8 @@ namespace SSLTerminate.Tests.Unit.CertificateLookup
             {
                 AccountContacts = new [] { "test@mail.com" },
                 AllowHosts = new [] { "host.com" },
-                DirectoryUrl = "http://acme.com/directory"
+                DirectoryUrl = "http://acme.com/directory",
+                AcmeChallengePollFrequencySeconds = 0,
             };
 
             var (privateKey, pem) = DummyCertificate.CreateDummyPrivateKeyAndPem();

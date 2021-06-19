@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using SSLTerminate.CertificateLookup;
 using SSLTerminate.Stores.AcmeAccounts;
@@ -56,6 +57,16 @@ namespace SSLTerminate.Tests.Unit
             var acmeAccountStore = provider.GetService<IAcmeAccountStore>();
 
             acmeAccountStore.Should().BeOfType<FileSystemAcmeAccountStore>();
+        }
+
+        [Test]
+        public void default_acme_challenge_poll_freqency_is_10_seconds()
+        {
+            var provider = CreateSslTerminateServices();
+
+            var options = provider.GetRequiredService<IOptions<SslTerminateConfig>>();
+
+            options.Value.AcmeChallengePollFrequencySeconds.Should().Be(10);
         }
 
         private static ServiceProvider CreateSslTerminateServices()

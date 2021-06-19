@@ -10,5 +10,7 @@ namespace SSLTerminate
 
         [Required]
         public string[] AccountContacts { get; set; }
+
+        public int AcmeChallengePollFrequencySeconds { get; set; } = 10;
     }
 }

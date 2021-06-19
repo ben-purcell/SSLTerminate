@@ -59,10 +59,14 @@ namespace SSLTerminate.Middleware
 
             logger.LogInformation("ACME challenge detected");
 
+            var response = httpContext.Response;
+
             var token = match.Groups["token"].Value;
             if (string.IsNullOrWhiteSpace(token))
             {
-                await _next.Invoke(httpContext);
+                logger.LogDebug($"Token not found: {token}");
+
+                response.StatusCode = 404;
                 return;
             }
 
@@ -73,11 +77,9 @@ namespace SSLTerminate.Middleware
             {
                 logger.LogInformation($"No key authorization found for token: {token}");
 
-                await _next.Invoke(httpContext);
+                response.StatusCode = 404;
                 return;
             }
-
-            var response = httpContext.Response;
 
             logger.LogInformation($"Key authorization found, token: {token}   ---   keyAuth: {keyAuthorization}");
 
