@@ -76,7 +76,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 ```
 
 ```services.AddSslTerminate(options => ...)``` is used to add the required services/dependencies.
- As noted in the comment above, it is best to use the Staging Let's Encrypt directory 
+ As noted in the comment above, it is best to use the Let's Encrypt Staging directory 
 until the solution you are implementing has been tested and verified to be working. 
 This is to avoid hitting Let's Encrypt [rate limits](https://letsencrypt.org/docs/rate-limits/).
 
