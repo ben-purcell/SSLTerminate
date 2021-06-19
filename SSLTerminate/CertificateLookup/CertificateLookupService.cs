@@ -24,18 +24,11 @@ namespace SSLTerminate.CertificateLookup
             _certificateFactory = certificateFactory;
         }
 
-        public X509Certificate2 GetForHost(string host)
+        public async Task<X509Certificate2> GetForHostAsync(string host, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(host))
                 throw new HostMissingException();
 
-            var certificate = Task.Run(() => GetForHostAsync(host)).Result;
-
-            return certificate;
-        }
-
-        public async Task<X509Certificate2> GetForHostAsync(string host, CancellationToken cancellationToken = default)
-        {
             var isAllowed = await _whitelistService.IsAllowed(host);
             if (!isAllowed)
                 throw new HostNotAllowedException($"Host not allowed: {host}");

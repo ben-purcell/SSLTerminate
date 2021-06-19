@@ -5,7 +5,7 @@ namespace SSLTerminate.Exceptions
     internal class HostMissingException : Exception
     {
         public HostMissingException()
-            : base("Hostname cannot be found - unsupported browser detected")
+            : base("Hostname cannot be found - possibly due to unsupported browser")
         {
         }
     }

@@ -22,7 +22,7 @@ namespace SSLTerminate.CertificateLookup
         private readonly IAcmeClientFactory _acmeClientFactory;
         private readonly IAcmeAccountStore _acmeAccountStore;
         private readonly IKeyAuthorizationsStore _keyAuthorizationsStore;
-        private readonly CertificateRequestFactory _certificateRequestFactory;
+        private readonly ICertificateRequestFactory _certificateRequestFactory;
         private readonly ILogger<CertificateFactory> _logger;
         private readonly SslTerminateConfig _config;
 
@@ -30,7 +30,7 @@ namespace SSLTerminate.CertificateLookup
             IAcmeClientFactory acmeClientFactory,
             IAcmeAccountStore acmeAccountStore,
             IKeyAuthorizationsStore keyAuthorizationsStore,
-            CertificateRequestFactory certificateRequestFactory,
+            ICertificateRequestFactory certificateRequestFactory,
             IOptions<SslTerminateConfig> config,
             ILogger<CertificateFactory> logger)
         {
@@ -95,7 +95,7 @@ namespace SSLTerminate.CertificateLookup
             return certificate;
         }
 
-        private static async Task<AcmeOrderResponse> WaitForChallengeToComplete(
+        private async Task<AcmeOrderResponse> WaitForChallengeToComplete(
             IAcmeClient acmeClient, 
             AcmeAccountKeys accountKeys, 
             AcmeOrderResponse order,
@@ -107,12 +107,14 @@ namespace SSLTerminate.CertificateLookup
                 statuses: new[]
                 {
                     AcmeOrderStatus.Pending
-                });
+                },
+                pollFrequencySeconds: _config.AcmeChallengePollFrequencySeconds,
+                cancellationToken: cancellationToken);
 
             return order;
         }
 
-        private static async Task<AcmeOrderResponse> WaitForCertificateToBeAvailable(
+        private async Task<AcmeOrderResponse> WaitForCertificateToBeAvailable(
             IAcmeClient acmeClient, AcmeAccountKeys accountKeys, 
             AcmeOrderResponse order,
             CancellationToken cancellationToken)
@@ -126,7 +128,9 @@ namespace SSLTerminate.CertificateLookup
                     {
                         AcmeOrderStatus.Ready,
                         AcmeOrderStatus.Processing
-                    });
+                    },
+                    pollFrequencySeconds: _config.AcmeChallengePollFrequencySeconds,
+                    cancellationToken: cancellationToken);
             }
 
             return order;
