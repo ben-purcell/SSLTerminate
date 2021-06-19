@@ -81,7 +81,7 @@ until the solution you are implementing has been tested and verified to be worki
 This is to avoid hitting Let's Encrypt [rate limits](https://letsencrypt.org/docs/rate-limits/).
 
 ```app.UseHttp01ChallengeHandler()``` is the line that adds the http-01 challenge response middleware.
-This needs to be done before ```app.UseHttpsRedirection();``` and other middleware runs, so that it can
+This needs to be done before ```app.UseHttpsRedirection()``` and other middleware additions, so that it can
 handle potential requests for the challenge on port 80.
 
 ## Where are certificates/data stored?
