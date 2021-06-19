@@ -9,7 +9,7 @@ If you simply want a client to interact with an ACME v2 server directly, use [SS
 
 There are 2 middlewares/handlers that need to be added.
 
-1. Configure Kestrel to respond to HTTPS requests with certificate lookup. This would typically done within ```Program.cs```, 
+1. **Configure Kestrel to respond to HTTPS requests with certificate lookup**. This would typically done within ```Program.cs```, 
 note the ```options.UseSslTerminateCertificates()``` line:
 
 ```csharp
@@ -27,7 +27,7 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
         });
 ```
 
-2. Add middleware to respond to http-01 challenges. In a live environment http-01 challenge middleware
+2. **Add middleware to respond to http-01 challenges**. In a live environment http-01 challenge middleware
  **MUST be served on port 80** - this is a limitation in how the ACME protocol is implemented and so won't
  be changing. See the [https://datatracker.ietf.org/doc/html/rfc8555#section-8.3](spec) on
 http-01 challenges for details.
