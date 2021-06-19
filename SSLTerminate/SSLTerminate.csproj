@@ -3,11 +3,10 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <PackageId>SSLTerminate</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>Ben Purcell</Authors>
     <Description>
-      Wrap a .NET 5 ASP.NET Core application in middleware that provides 
-      free SSL Certificates from Let's Encrypt.
+      Wrap a .NET 5 ASP.NET Core application in middleware that provides free SSL Certificates from Let's Encrypt.
     </Description>
     <PackageProjectUrl>https://github.com/ben-purcell/SSLTerminate</PackageProjectUrl>
   </PropertyGroup>
