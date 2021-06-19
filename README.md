@@ -111,4 +111,4 @@ services.AddFileSystemAccountStore(opts => opts.AcmeAccountPath = <path-to-file>
 
 ## Example
 
-For a simple example, please see the example: [./Examples/HelloWebApp](link)
+For a simple example, please see the example: [link](Examples/HelloWebApp)
