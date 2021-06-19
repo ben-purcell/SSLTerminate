@@ -1,6 +1,6 @@
 # SSLTerminate
 
-Middleware, handlers and stores to handle serving an ASP.NET Core application via Ketrel. Written in C#/.NET 5
+Middleware to handle serving an ASP.NET Core application via Kestrel. Written in C#/.NET 5
 If you simply want a client to interact with an ACME v2 server directly, use [SSLTerminate.ACME/README.md](SSLTerminate.ACME)
 
 ## Usage
