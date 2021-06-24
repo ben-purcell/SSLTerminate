@@ -1,0 +1,15 @@
+﻿version: "3.8"
+services:
+    postgres:
+        restart: always
+        image: postgres:13.2
+        container_name: sslterminate-tests-pg
+        volumes:
+          - postgres_data:/var/lib/postgresql/data/:rw
+        ports:
+          - "5435:5432"
+        environment:
+          POSTGRES_PASSWORD: password
+          PGDATA: /var/lib/postgresql/data/
+volumes:
+    postgres_data: {}

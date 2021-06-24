@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -8,6 +9,7 @@ using Dapper.Contrib.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using Npgsql;
+using NpgsqlTypes;
 using SSLTerminate.Extensions;
 using SSLTerminate.Stores.ClientCertificates;
 
@@ -25,9 +27,9 @@ namespace SSLTerminate.Storage.Postgres
         public async Task<X509Certificate2> GetCertificateWithPrivateKey(string host)
         {
             const string sql = "select * " +
-                               "from CertificateWithKey" +
-                               "where c.host = :host" +
-                               "and c.expiry < :expiry";
+                               "from CertificateWithKey c " +
+                               "where c.host = @host " +
+                               "and c.expiry > @expiry";
 
             await using var connection = new NpgsqlConnection(_connectionString);
             
@@ -37,7 +39,10 @@ namespace SSLTerminate.Storage.Postgres
                     host = host,
                     expiry = DateTime.Now
                 }))
-                .First();
+                .FirstOrDefault();
+
+            if (cert == null)
+                return null;
 
             var certificateBytes = WebEncoders.Base64UrlDecode(cert.CertificateBase64Url);
             var privateKeyBytes = WebEncoders.Base64UrlDecode(cert.PrivateKeyBase64Url);
@@ -68,10 +73,14 @@ namespace SSLTerminate.Storage.Postgres
 
             await using var connection = new NpgsqlConnection(_connectionString);
 
-            await connection.InsertAsync(cert);
+            var sql = "insert into CertificateWithKey (Host, Expiry, PrivateKeyBase64Url, CertificateBase64Url, CreatedUtc)  " +
+                      "values (@Host, @Expiry, @PrivateKeyBase64Url, @CertificateBase64Url, @CreatedUtc)";
+
+            await connection.ExecuteAsync(sql, cert);
         }
     }
 
+    [Table(nameof(CertificateWithKey))]
     class CertificateWithKey
     {
         public int Id { get; set; }

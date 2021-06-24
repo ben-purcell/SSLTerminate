@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,16 +11,26 @@ using SSLTerminate.Stores.ClientCertificates;
 using SSLTerminate.Stores.KeyAuthorizations;
 using SSLTerminate.Tests.Common.certs;
 
-namespace SSLTerminate.Storage.Postgres.Tests
+namespace SSLTerminate.Storage.Postgres.Tests.Integration
 {
     public class Tests
     {
+        private static readonly string ConnectionString = Environment.GetEnvironmentVariable("SSLTERMINATE_POSTGRES_TEST_CSTRING") ??
+                                                           "User ID=postgres;Password=password;Host=localhost;Port=5435;Database=postgres;Pooling=true;";
+
+        [SetUp]
+        public void SetUp()
+        {
+            Db.DropStores(ConnectionString);
+            Db.CreateStores(ConnectionString);
+        }
+
         [Test]
         public async Task postgres_acme_account_store_crud_works()
         {
             var services = CreatePostgresStoreServices();
 
-            var acmeAccountStore = services.GetRequiredService<IAcmeAccountStore>();
+            var acmeAccountStore = (PostgresAcmeAccountStore) services.GetRequiredService<IAcmeAccountStore>();
 
             var accountKeys = new AcmeAccountKeys
             {
@@ -36,11 +47,23 @@ namespace SSLTerminate.Storage.Postgres.Tests
         }
 
         [Test]
+        public async Task postgres_acme_account_can_be_null()
+        {
+            var services = CreatePostgresStoreServices();
+
+            var acmeAccountStore = (PostgresAcmeAccountStore)services.GetRequiredService<IAcmeAccountStore>();
+
+            var acmeAccountKeys = await acmeAccountStore.Get();
+
+            acmeAccountKeys.Should().BeNull();
+        }
+
+        [Test]
         public async Task postgres_key_auth_store_and_retrieve_works()
         {
             var services = CreatePostgresStoreServices();
 
-            var keyAuthStore = services.GetRequiredService<IKeyAuthorizationsStore>();
+            var keyAuthStore = (PostgresKeyAuthorizationsStore) services.GetRequiredService<IKeyAuthorizationsStore>();
 
             await keyAuthStore.Store("123", "456");
 
@@ -56,11 +79,23 @@ namespace SSLTerminate.Storage.Postgres.Tests
         }
 
         [Test]
+        public async Task postgres_key_auth_store_can_return_null()
+        {
+            var services = CreatePostgresStoreServices();
+
+            var keyAuthStore = (PostgresKeyAuthorizationsStore) services.GetRequiredService<IKeyAuthorizationsStore>();
+
+            var auth = await keyAuthStore.GetKeyAuthorization("doesn't-exist");
+
+            auth.Should().BeNull();
+        }
+
+        [Test]
         public async Task postgres_client_cert_store_crud_works()
         {
             var services = CreatePostgresStoreServices();
 
-            var clientCertStore = services.GetRequiredService<IClientCertificateStore>();
+            var clientCertStore = (PostgresClientCertificateStore) services.GetRequiredService<IClientCertificateStore>();
 
             var certificateWithPrivateKey = DummyCertificate.One();
 
@@ -73,13 +108,25 @@ namespace SSLTerminate.Storage.Postgres.Tests
                 certificateWithPrivateKey.PrivateKey.ExportPkcs8PrivateKey());
         }
 
+        [Test]
+        public async Task postgres_client_certificate_store_can_return_null()
+        {
+            var services = CreatePostgresStoreServices();
+
+            var clientCertificateStore = (PostgresClientCertificateStore)services.GetRequiredService<IClientCertificateStore>();
+
+            var certificate = await clientCertificateStore.GetCertificateWithPrivateKey("www.nonsense.com");
+
+            certificate.Should().BeNull();
+        }
+
         private static ServiceProvider CreatePostgresStoreServices()
         {
             var serviceCollection = new ServiceCollection();
 
             serviceCollection.AddPostgresStorage(x =>
             {
-                x.ConnectionString = "";
+                x.ConnectionString = ConnectionString;
             });
 
             serviceCollection

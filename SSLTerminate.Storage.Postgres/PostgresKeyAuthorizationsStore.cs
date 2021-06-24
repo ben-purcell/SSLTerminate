@@ -24,7 +24,7 @@ namespace SSLTerminate.Storage.Postgres
         {
             await using var connection = new NpgsqlConnection(_connectionString);
 
-            const string sql = @"select * from KeyAuthorization where token = :token";
+            const string sql = @"select * from KeyAuthorization where token = @token";
 
             var keyAuthorizations = await connection.QueryAsync<KeyAuthorization>(sql, new
             {
@@ -44,20 +44,22 @@ namespace SSLTerminate.Storage.Postgres
 
             await using var connection = new NpgsqlConnection(_connectionString);
 
-            await connection.InsertAsync(keyAuthorization);
+            await connection.ExecuteAsync(
+                "insert into KeyAuthorization values(@Token, @KeyAuth)", keyAuthorization);
         }
 
         public async Task Remove(string token)
         {
             await using var connection = new NpgsqlConnection(_connectionString);
 
-            await connection.DeleteAsync(new KeyAuthorization
+            await connection.ExecuteAsync("delete from KeyAuthorization where Token = @token", new
             {
-                Token = token
+                token
             });
         }
     }
 
+    [Table(nameof(KeyAuthorization))]
     class KeyAuthorization
     {
         public string Token { get; set; }
