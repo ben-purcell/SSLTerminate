@@ -8,16 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SSLTerminate.Storage.Postgres\SSLTerminate.Storage.Postgres.csproj" />
     <ProjectReference Include="..\SSLTerminate.Tests.Common\SSLTerminate.Tests.Common.csproj" />
-    <ProjectReference Include="..\SSLTerminate\SSLTerminate.csproj" />
   </ItemGroup>
 
 </Project>

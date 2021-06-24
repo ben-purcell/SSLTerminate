@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
+using Microsoft.Extensions.Options;
 using Npgsql;
 using SSLTerminate.Stores.KeyAuthorizations;
 
@@ -14,9 +15,9 @@ namespace SSLTerminate.Storage.Postgres
     {
         private readonly string _connectionString;
 
-        public PostgresKeyAuthorizationsStore(string connectionString)
+        public PostgresKeyAuthorizationsStore(IOptions<PostgresStorageOptions> options)
         {
-            _connectionString = connectionString;
+            _connectionString = options.Value.ConnectionString;
         }
 
         public async Task<string> GetKeyAuthorization(string token)

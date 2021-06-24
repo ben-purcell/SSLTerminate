@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SSLTerminate.Tests.Certs
+namespace SSLTerminate.Tests.Common.certs
 {
-    class DummyCertificate
+    public class DummyCertificate
     {
         private static readonly Lazy<X509Certificate2> CertificateOne = new Lazy<X509Certificate2>(
             () => X509Certificate2.CreateFromPemFile(

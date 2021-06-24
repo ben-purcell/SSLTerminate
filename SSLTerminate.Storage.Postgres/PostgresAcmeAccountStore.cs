@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
+using Microsoft.Extensions.Options;
 using Npgsql;
 using SSLTerminate.ACME.Keys;
 using SSLTerminate.Stores.AcmeAccounts;
@@ -13,9 +14,9 @@ namespace SSLTerminate.Storage.Postgres
     {
         private readonly string _connectionString;
 
-        public PostgresAcmeAccountStore(string connectionString)
+        public PostgresAcmeAccountStore(IOptions<PostgresStorageOptions> options)
         {
-            _connectionString = connectionString;
+            _connectionString = options.Value.ConnectionString;
         }
 
         public async Task<AcmeAccountKeys> Get()

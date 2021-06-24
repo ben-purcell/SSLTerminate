@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Options;
 using Npgsql;
 using SSLTerminate.Extensions;
 using SSLTerminate.Stores.ClientCertificates;
@@ -16,9 +17,9 @@ namespace SSLTerminate.Storage.Postgres
     {
         private readonly string _connectionString;
 
-        public PostgresClientCertificateStore(string connectionString)
+        public PostgresClientCertificateStore(IOptions<PostgresStorageOptions> options)
         {
-            _connectionString = connectionString;
+            _connectionString = options.Value.ConnectionString;
         }
 
         public async Task<X509Certificate2> GetCertificateWithPrivateKey(string host)
