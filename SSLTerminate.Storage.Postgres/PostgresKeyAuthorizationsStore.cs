@@ -39,13 +39,14 @@ namespace SSLTerminate.Storage.Postgres
             var keyAuthorization = new KeyAuthorization
             {
                 Token = token,
-                KeyAuth = keyAuth
+                KeyAuth = keyAuth,
+                CreatedUtc = DateTime.UtcNow
             };
 
             await using var connection = new NpgsqlConnection(_connectionString);
 
             await connection.ExecuteAsync(
-                "insert into KeyAuthorization values(@Token, @KeyAuth)", keyAuthorization);
+                "insert into KeyAuthorization (Token, KeyAuth, CreatedUtc) values(@Token, @KeyAuth, @CreatedUtc)", keyAuthorization);
         }
 
         public async Task Remove(string token)
@@ -64,5 +65,6 @@ namespace SSLTerminate.Storage.Postgres
     {
         public string Token { get; set; }
         public string KeyAuth { get; set; }
+        public DateTime CreatedUtc { get; set; }
     }
 }

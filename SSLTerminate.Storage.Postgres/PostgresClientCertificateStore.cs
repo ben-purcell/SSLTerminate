@@ -29,7 +29,7 @@ namespace SSLTerminate.Storage.Postgres
             const string sql = "select * " +
                                "from CertificateWithKey c " +
                                "where c.host = @host " +
-                               "and c.expiry > @expiry";
+                               "and c.expiry > @tomorrow";
 
             await using var connection = new NpgsqlConnection(_connectionString);
             
@@ -37,7 +37,7 @@ namespace SSLTerminate.Storage.Postgres
                 sql, new
                 {
                     host = host,
-                    expiry = DateTime.Now
+                    tomorrow = DateTime.Now.AddDays(1)
                 }))
                 .FirstOrDefault();
 
