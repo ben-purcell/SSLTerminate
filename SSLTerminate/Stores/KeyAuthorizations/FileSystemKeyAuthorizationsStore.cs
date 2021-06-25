@@ -34,7 +34,7 @@ namespace SSLTerminate.Stores.KeyAuthorizations
             return contents;
         }
 
-        public async Task Store(string token, string keyAuthorization)
+        public async Task Store(string host, string token, string keyAuthorization)
         {
             _logger.LogDebug("Storing key authorization for token: " + token);
 

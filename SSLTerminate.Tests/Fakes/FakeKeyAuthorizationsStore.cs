@@ -24,7 +24,7 @@ namespace SSLTerminate.Tests.Fakes
             return Task.FromResult(result);
         }
 
-        public Task Store(string token, string keyAuthorization)
+        public Task Store(string host, string token, string keyAuthorization)
         {
             With(token, keyAuthorization);
             return Task.CompletedTask;
