@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SSLTerminate;
 using SSLTerminate.ACME;
+using SSLTerminate.Storage.Postgres;
 using SSLTerminate.Stores;
 
 namespace HelloWebApp
@@ -37,20 +38,16 @@ namespace HelloWebApp
                 options.DirectoryUrl = Directories.LetsEncrypt.Staging;
             });
 
-            // by default account details are stored relative to where
-            // the executable is stored. The defaults can be overridden:
-            //services.AddFileSystemAccountStore(x =>
-            //    x.AcmeAccountPath = "<full-path-to-json-file.json>");
-
-            //services.AddFileSystemKeyAuthorizationsStore(
-            //    x => x.KeyAuthorizationsPath = "<a-directory>");
-
-            //services.AddFileSystemCertificateStore(
-            //    x => x.ClientCertificatePath = "<a-directory>");
+            services.AddPostgresStorage(x =>
+            {
+                x.ConnectionString = _configuration["SSLTerminate:ConnectionString"];
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Db.CreateStores(_configuration["SSLTerminate:ConnectionString"]);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
