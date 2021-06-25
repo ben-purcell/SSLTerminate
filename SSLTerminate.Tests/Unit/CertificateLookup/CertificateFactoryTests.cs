@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using SSLTerminate.CertificateLookup;
-using SSLTerminate.Tests.Certs;
+using SSLTerminate.Tests.Common.certs;
 using SSLTerminate.Tests.Fakes;
 
 namespace SSLTerminate.Tests.Unit.CertificateLookup
