@@ -6,7 +6,7 @@ namespace SSLTerminate.Stores.KeyAuthorizations
     {
         Task<string> GetKeyAuthorization(string token);
         
-        Task Store(string token, string keyAuthorization);
+        Task Store(string host, string token, string keyAuthorization);
 
         Task Remove(string token);
     }

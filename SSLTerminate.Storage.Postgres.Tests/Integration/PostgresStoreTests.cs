@@ -65,7 +65,7 @@ namespace SSLTerminate.Storage.Postgres.Tests.Integration
 
             var keyAuthStore = (PostgresKeyAuthorizationsStore) services.GetRequiredService<IKeyAuthorizationsStore>();
 
-            await keyAuthStore.Store("123", "456");
+            await keyAuthStore.Store("www.test-host.com", "123", "456");
 
             var stored = await keyAuthStore.GetKeyAuthorization("123");
 
