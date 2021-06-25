@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - master
-      - add-postgres-store
 
 env:
   PACKAGE_OUTPUT_PATH: ${{ github.workspace }}/output
