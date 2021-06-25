@@ -59,6 +59,7 @@ namespace SSLTerminate.CertificateLookup
                 .First(x => x.Type.Equals("http-01", StringComparison.OrdinalIgnoreCase));
 
             await _keyAuthorizationsStore.Store(
+                host,
                 http01Challenge.Token, 
                 accountKeys.PrivateKey.KeyAuthorization(http01Challenge.Token));
 
