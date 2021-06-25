@@ -50,10 +50,11 @@ namespace SSLTerminate.Storage.Postgres
             var keys = new AccountKeys
             {
                 KeyId = acmeAccountKeys.KeyId,
-                PrivateKeyBase64Url = encodedPrivateKey
+                PrivateKeyBase64Url = encodedPrivateKey,
+                CreatedUtc = DateTime.UtcNow
             };
 
-            var sql = "insert into AccountKeys (KeyId, PrivateKeyBase64Url) values(@KeyId, @PrivateKeyBase64Url)";
+            var sql = "insert into AccountKeys (KeyId, PrivateKeyBase64Url, CreatedUtc) values(@KeyId, @PrivateKeyBase64Url, @CreatedUtc)";
 
             await connection.ExecuteAsync(sql, keys);
         }
@@ -62,6 +63,7 @@ namespace SSLTerminate.Storage.Postgres
         {
             public string KeyId { get; set; }
             public string PrivateKeyBase64Url { get; set; }
+            public DateTime CreatedUtc { get; set; }
         }
     }
 }

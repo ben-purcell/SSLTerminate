@@ -1,13 +1,15 @@
 ﻿create table if not exists AccountKeys
 (
 	KeyId varchar(256) not null primary key,
-	PrivateKeyBase64Url varchar not null
+	PrivateKeyBase64Url varchar not null,
+	CreatedUtc timestamp with time zone not null
 );
 
 create table if not exists KeyAuthorization
 (
 	Token varchar(256) not null primary key,
-	KeyAuth varchar not null
+	KeyAuth varchar not null,
+	CreatedUtc timestamp with time zone not null
 );
 
 create table if not exists CertificateWithKey

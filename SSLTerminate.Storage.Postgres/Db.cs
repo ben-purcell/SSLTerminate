@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
@@ -15,7 +16,10 @@ namespace SSLTerminate.Storage.Postgres
         {
             var connection = new NpgsqlConnection(connectionString);
 
-            var script = File.ReadAllText(Path.Combine("scripts", "create_tables.pgsql"));
+            var script = File.ReadAllText(Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "scripts", 
+                "create_tables.pgsql"));
 
             connection.Execute(script);
         }
@@ -24,7 +28,10 @@ namespace SSLTerminate.Storage.Postgres
         {
             var connection = new NpgsqlConnection(connectionString);
 
-            var script = File.ReadAllText(Path.Combine("scripts", "drop_tables.pgsql"));
+            var script = File.ReadAllText(Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "scripts", 
+                "drop_tables.pgsql"));
 
             connection.Execute(script);
         }
