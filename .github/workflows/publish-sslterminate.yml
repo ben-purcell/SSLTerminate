@@ -47,8 +47,10 @@ jobs:
         run:  dotnet test
 
       - name: Pack
-        run:  dotnet pack --no-build --no-restore --configuration=Release -o ${{ env.PACKAGE_OUTPUT_PATH }}
-
+        run:  |
+          dotnet pack ./SSLTerminate/SSLTerminate.csproj --no-build --no-restore --configuration=Release -o ${{ env.PACKAGE_OUTPUT_PATH }}
+          dotnet pack ./SSLTerminate.ACME/SSLTerminate.ACME.csproj --no-build --no-restore --configuration=Release -o ${{ env.PACKAGE_OUTPUT_PATH }}
+          
       - name: Publish
         run:  |
           dotnet nuget push ${{ env.PACKAGE_OUTPUT_PATH }}/*.* \
