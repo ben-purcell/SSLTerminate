@@ -24,24 +24,26 @@ namespace HelloWebApp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSslTerminate(options =>
-            {
-                options.AccountContacts = new[]
+            services
+                .AddSslTerminate(options =>
                 {
-                    _configuration["SSLTerminate:AccountEmail"]
-                };
+                    options.AccountContacts = new[]
+                    {
+                        _configuration["SSLTerminate:AccountEmail"]
+                    };
 
-                options.AllowHosts = _configuration
-                    .GetSection("SSLTerminate:AllowedHosts")
-                    .Get<string[]>();
+                    options.DirectoryUrl = Directories.LetsEncrypt.Staging;
+                });
 
-                options.DirectoryUrl = Directories.LetsEncrypt.Staging;
-            });
-
-            services.AddPostgresStorage(x =>
-            {
-                x.ConnectionString = _configuration["SSLTerminate:ConnectionString"];
-            });
+            services
+                .AddPostgresStores(x =>
+                {
+                    x.ConnectionString = _configuration["SSLTerminate:ConnectionString"];
+                })
+                .AddPostgresWhitelist(x =>
+                {
+                    x.ConnectionString = _configuration["SSLTerminate:ConnectionString"];
+                });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

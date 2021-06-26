@@ -1,0 +1,12 @@
+﻿version: "3.8"
+services:
+
+    sslterminate_example_hello:
+        image: sslterminate_example_hello
+        ports:
+                - 443:443
+                - 80:80
+        environment:
+                SSLTerminate__AccountEmail: ${ACCOUNT_EMAIL}
+                SSLTerminate__ConnectionString: ${CONNECTION_STRING}
+                ASPNETCORE_URLS: http://+:80;https://+:443

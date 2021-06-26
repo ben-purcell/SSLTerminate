@@ -38,5 +38,3 @@ msbuild.wrn
 _Resharper.Caches
 
 **/HelloWebApp/appsettings.Development.json
-
-docker-compose.deploy.yml
