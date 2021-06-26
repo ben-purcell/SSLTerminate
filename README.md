@@ -124,9 +124,9 @@ Add a reference to SSLTerminate.Storage.Postgres. This is available on Nuget.
 
 Each data type we need to store goes into its own table:
 
-* ACME account details
-* Key Authorizations
-* Client Certificates
+* ACME account details (table: ```public.accountkeys```)
+* Key Authorizations (table: ```public.keyauthorization```)
+* Client Certificates (table: ```public.certificatewithkey```)
 
 To enable storage for all of the data items, add the following in Startup.cs within ```ConfigureServices```:
 
@@ -151,6 +151,7 @@ We can store whitelisted hosts in PostgreSQL. This allows us to support adding/r
 ```csharp
 serviceCollection.AddPostgresWhitelist(options => options.ConnectionString = "<postgres-connection-string>");
 ```
+table: ```public.whitelistentry```
 
 ## Limitations
 
