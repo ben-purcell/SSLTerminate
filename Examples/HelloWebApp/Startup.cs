@@ -42,6 +42,8 @@ namespace HelloWebApp
                 })
                 .AddPostgresWhitelist(x =>
                 {
+                    // whitelisted hosts should be stored in public.whitelistentry table
+                    // this allows hosts to be added/removed dynamically
                     x.ConnectionString = _configuration["SSLTerminate:ConnectionString"];
                 });
         }
