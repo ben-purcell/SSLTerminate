@@ -1,0 +1,5 @@
+﻿bin/
+obj/
+out/
+TestResults/
+appsettings.Development.json
