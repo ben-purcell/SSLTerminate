@@ -91,6 +91,9 @@ There are currently 2 supported options. File Storage and PostgreSQL. Using Post
 
 ### File storage
 
+This is the default behaviour, and you don't have to do anything beyond the previously discussed ```serviceCollection.AddSslTerminate(...)``` 
+as described above.
+
 1. ACME account details. A single file, stored by default in: ```<app-path>/stores/acme-account.json```
 2. Key Authorizations. A directory, used to store data that is used to respond to http-01 challenges. Default directory: ```<app-path>/stores/key-authz/```
 3. Client Certificates. A directory, used to store the created SSL certs created via Let's Encrypt. The default path is: ```<app-path>/stores/client-certs```
