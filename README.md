@@ -110,6 +110,13 @@ services.AddFileSystemAccountStore(opts => opts.AcmeAccountPath = <path-to-file>
 ### PostgreSQL storage
 
 #### Storing core data types in PostgreSQL
+You have the option to store SSL certificates and all of the required data in PostgreSQL. Doing so will allow 
+provides the following advantages over file storage:
+
+* Multiple web servers can share the same storage
+* If a web server needs to be terminated, we won't lose the stored data
+* Supports adding/removing whitelisted hosts dynamically
+
 Add a reference to SSLTerminate.Storage.Postgres. This is available on Nuget.
 
 Each data type we need to store goes into its own table:
@@ -124,8 +131,10 @@ To enable storage for all of the data items, add the following in Startup.cs wit
 services.AddPostgresStores(options => options.ConnectionString = "<postgres-connection-string>");
 ```
 
-**alternatively**(options => options.con
-These can be added 1 at a time, if you would like to mix with file storage or your own storage implementation:
+**alternatively**
+
+If you need more control over which stores are postgres vs some other option, you can add the stores 1 at a time
+during ```Startup.cs``` within ```ConfigureServices```:
 
 ```csharp
 serviceCollection.AddPostgresAcmeAccountStore(options => options.ConnectionString = "<postgres-connection-string>");
@@ -139,7 +148,6 @@ We can store whitelisted hosts in PostgreSQL. This allows us to support adding/r
 ```csharp
 serviceCollection.AddPostgresWhitelist(options => options.ConnectionString = "<postgres-connection-string>");
 ```
-
 
 ## Limitations
 
