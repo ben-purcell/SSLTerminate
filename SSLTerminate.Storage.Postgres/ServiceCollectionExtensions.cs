@@ -9,12 +9,13 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using SSLTerminate.Stores.AcmeAccounts;
 using SSLTerminate.Stores.ClientCertificates;
 using SSLTerminate.Stores.KeyAuthorizations;
+using SSLTerminate.Whitelist;
 
 namespace SSLTerminate.Storage.Postgres
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddPostgresStorage(
+        public static IServiceCollection AddPostgresStores(
             this IServiceCollection serviceCollection,
             Action<PostgresStorageOptions> options)
         {
@@ -54,6 +55,18 @@ namespace SSLTerminate.Storage.Postgres
 
             serviceCollection.RemoveAll<IKeyAuthorizationsStore>();
             serviceCollection.AddSingleton<IKeyAuthorizationsStore, PostgresKeyAuthorizationsStore>();
+            return serviceCollection;
+        }
+
+        public static IServiceCollection AddPostgresWhitelist(
+            this IServiceCollection serviceCollection,
+            Action<PostgresStorageOptions> options)
+        {
+            serviceCollection.Configure(options);
+
+            serviceCollection.RemoveAll<IWhitelistService>();
+            serviceCollection.AddSingleton<IWhitelistService, PostgresWhitelistService>();
+
             return serviceCollection;
         }
     }
