@@ -9,6 +9,7 @@ create table if not exists KeyAuthorization
 (
 	Token varchar(256) not null primary key,
 	KeyAuth varchar not null,
+	Host varchar(256) not null,
 	CreatedUtc timestamp with time zone not null
 );
 
