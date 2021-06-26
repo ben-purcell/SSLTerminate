@@ -87,7 +87,12 @@ handle potential requests for the challenge on port 80.
 
 ## Where are certificates/data stored?
 
-Currently the only storage option available is file storage (more options coming soon). There are 3 items that this library concerns itself with storing:
+There are currently 2 supported options. File Storage and PostgreSQL. Using PostgreSQL allows more flexibility, File Storage is simpler.
+
+### File storage
+
+This is the default behaviour, and you don't have to do anything beyond the previously discussed ```serviceCollection.AddSslTerminate(...)``` 
+as described above. Details of the stored data items are described here:
 
 1. ACME account details. A single file, stored by default in: ```<app-path>/stores/acme-account.json```
 2. Key Authorizations. A directory, used to store data that is used to respond to http-01 challenges. Default directory: ```<app-path>/stores/key-authz/```
@@ -105,12 +110,54 @@ services.AddFileSystemAccountStore(opts => opts.AcmeAccountPath = <path-to-file>
 
 ```
 
+### PostgreSQL storage
+
+#### Storing core data types in PostgreSQL
+You have the option to store SSL certificates and all of the required data in PostgreSQL. Doing so will allow 
+provides the following advantages over file storage:
+
+* Multiple web servers can share the same storage
+* If a web server needs to be terminated, we won't lose the stored data
+* Supports adding/removing whitelisted hosts dynamically
+
+Add a reference to SSLTerminate.Storage.Postgres. This is available on Nuget.
+
+Each data type we need to store goes into its own table:
+
+* ACME account details (table: ```public.accountkeys```)
+* Key Authorizations (table: ```public.keyauthorization```)
+* Client Certificates (table: ```public.certificatewithkey```)
+
+To enable storage for all of the data items, add the following in Startup.cs within ```ConfigureServices```:
+
+```csharp
+services.AddPostgresStores(options => options.ConnectionString = "<postgres-connection-string>");
+```
+
+**alternatively**
+
+If you need more control over which stores are postgres vs some other option, you can add the stores 1 at a time
+during ```Startup.cs``` within ```ConfigureServices```:
+
+```csharp
+serviceCollection.AddPostgresAcmeAccountStore(options => options.ConnectionString = "<postgres-connection-string>");
+serviceCollection.AddPostgresClientCertificateStore(options => options.ConnectionString = "<postgres-connection-string>");
+serviceCollection.AddPostgresKeyAuthorizationsStore(options => options.ConnectionString = "<postgres-connection-string>");
+```
+
+#### Storing whitelist in PostgreSQL
+We can store whitelisted hosts in PostgreSQL. This allows us to support adding/removing hosts from the whitelist dynamically:
+
+```csharp
+serviceCollection.AddPostgresWhitelist(options => options.ConnectionString = "<postgres-connection-string>");
+```
+table: ```public.whitelistentry```
+
 ## Limitations
 
 1. Deals with http-01 challenges only, so **no wildcard certs**
-2. Storage is file only for now
-3. Url's/Ports that the app is served on must be configured using a mechanism that sets the ASPNETCORE_URLS environment variable
-4. To deal with http-01 challenges, the app MUST be open on port 80. SSL traffic will still need the https port open
+2. Url's/Ports that the app is served on must be configured using a mechanism that sets the ASPNETCORE_URLS environment variable
+3. To deal with http-01 challenges, the app MUST be open on port 80. SSL traffic will still need the https port open
 
 ## Example
 
