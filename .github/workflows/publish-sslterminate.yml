@@ -50,6 +50,7 @@ jobs:
         run:  |
           dotnet pack ./SSLTerminate/SSLTerminate.csproj --no-build --no-restore --configuration=Release -o ${{ env.PACKAGE_OUTPUT_PATH }}
           dotnet pack ./SSLTerminate.ACME/SSLTerminate.ACME.csproj --no-build --no-restore --configuration=Release -o ${{ env.PACKAGE_OUTPUT_PATH }}
+          dotnet pack ./SSLTerminate.Storage.Postgres/SSLTerminate.Storage.Postgres.csproj --no-build --no-restore --configuration=Release -o ${{ env.PACKAGE_OUTPUT_PATH }}
           
       - name: Publish
         run:  |
