@@ -87,7 +87,7 @@ handle potential requests for the challenge on port 80.
 
 ## Where are certificates/data stored?
 
-There are currently 2 supported options. File Storage and Postgres. You can also add whitelisted hosts to postgres.
+There are currently 2 supported options. File Storage and PostgreSQL. You can also add whitelisted hosts to PostgreSQL.
 
 ### File storage
 
