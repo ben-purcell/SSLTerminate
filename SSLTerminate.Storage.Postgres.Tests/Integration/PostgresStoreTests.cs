@@ -10,11 +10,13 @@ using SSLTerminate.Stores.AcmeAccounts;
 using SSLTerminate.Stores.ClientCertificates;
 using SSLTerminate.Stores.KeyAuthorizations;
 using SSLTerminate.Tests.Common.certs;
+using SSLTerminate.Whitelist;
 
 namespace SSLTerminate.Storage.Postgres.Tests.Integration
 {
     public class Tests
     {
+        // These tests depend on postgres db running on the given connection string
         private static readonly string ConnectionString = Environment.GetEnvironmentVariable("SSLTERMINATE_POSTGRES_TEST_CSTRING") ??
                                                            "User ID=postgres;Password=password;Host=localhost;Port=5435;Database=postgres;Pooling=true;";
 
@@ -120,14 +122,40 @@ namespace SSLTerminate.Storage.Postgres.Tests.Integration
             certificate.Should().BeNull();
         }
 
+        [Test]
+        public async Task postgres_whitelist_service_works()
+        {
+            var services = CreatePostgresStoreServices();
+
+            var whitelistService = (PostgresWhitelistService) services.GetRequiredService<IWhitelistService>();
+
+            await whitelistService.Add("www.blah.com");
+
+            var isAllowedAfterAdd = await whitelistService.IsAllowed("www.blah.com");
+            var isAllowedWhenNotAdded = await whitelistService.IsAllowed("wasnotadded.com");
+
+            await whitelistService.Remove("www.blah.com");
+
+            var isAllowedAfterRemove = await whitelistService.IsAllowed("www.blah.com");
+
+            isAllowedAfterAdd.Should().BeTrue();
+            isAllowedWhenNotAdded.Should().BeFalse();
+            isAllowedAfterRemove.Should().BeFalse();
+        }
+
         private static ServiceProvider CreatePostgresStoreServices()
         {
             var serviceCollection = new ServiceCollection();
 
-            serviceCollection.AddPostgresStorage(x =>
-            {
-                x.ConnectionString = ConnectionString;
-            });
+            serviceCollection
+                .AddPostgresStores(x =>
+                {
+                    x.ConnectionString = ConnectionString;
+                })
+                .AddPostgresWhitelist(x =>
+                {
+                    x.ConnectionString = ConnectionString;
+                });
 
             serviceCollection
                 .AddTransient(typeof(ILogger<>), typeof(NullLogger<>));

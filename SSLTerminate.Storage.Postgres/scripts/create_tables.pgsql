@@ -22,3 +22,10 @@ create table if not exists CertificateWithKey
 	CreatedUtc timestamp with time zone not null,
 	Expiry timestamp not null
 );
+
+create table if not exists WhitelistEntry
+(
+	Id serial primary key,
+	Host varchar(256)  not null,
+	CreatedUtc timestamp not null
+);

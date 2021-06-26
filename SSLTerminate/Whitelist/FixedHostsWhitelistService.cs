@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -25,6 +26,18 @@ namespace SSLTerminate.Whitelist
             _logger.LogDebug($"Host allowed check result: {host} - {result}");
 
             return Task.FromResult(result);
+        }
+
+        public Task Add(string host)
+        {
+            throw new NotImplementedException(
+                $"{nameof(FixedHostsWhitelistService)} does not support adding host to whitelist");
+        }
+
+        public Task Remove(string host)
+        {
+            throw new NotImplementedException(
+                $"{nameof(FixedHostsWhitelistService)} does not support removing host from whitelist");
         }
     }
 }
