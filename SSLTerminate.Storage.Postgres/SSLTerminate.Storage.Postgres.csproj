@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <PackageId>SSLTerminate.Storage.Postgres</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Ben Purcell</Authors>
     <Description>
       Postgres stores/whitelist for host whitelist, client certificates, key authorizations and acme account details
     </Description>
-    <PackageProjectUrl>https://github.com/ben-purcell/SSLTerminate/tree/master/SSLTerminate.ACME</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/ben-purcell/SSLTerminate</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
