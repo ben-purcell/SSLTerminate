@@ -28,13 +28,13 @@ namespace SSLTerminate.ReverseProxy.Common.Services
             await using var connection = new NpgsqlConnection(_connectionString);
 
             const string sql = 
-                "insert into RegisteredRoute(Host, Redirect, CreatedUtc) " +
-                "values (@Host, @Redirect, @CreatedUtc)" +
-                "on conflict(Host) do update set Redirect = @Redirect";
+                "insert into RegisteredRoute(Host, Upstream, CreatedUtc) " +
+                "values (@Host, @Upstream, @CreatedUtc)" +
+                "on conflict(Host) do update set Upstream = @Upstream";
 
             var affectedRows = await connection.ExecuteAsync(sql, registeredRoute);
 
-            _logger.LogDebug($"Registered Route: {registeredRoute.Host} -> {registeredRoute.Redirect}, affected rows: {affectedRows}");
+            _logger.LogDebug($"Registered Route: {registeredRoute.Host} -> {registeredRoute.Upstream}, affected rows: {affectedRows}");
         }
 
         public async Task RemoveByHost(string host)
@@ -60,7 +60,7 @@ namespace SSLTerminate.ReverseProxy.Common.Services
             })).FirstOrDefault();
 
             var logMessage = registeredRoute != null
-                ? $"Get RegisteredRoute by host ({host}): {registeredRoute?.Host} -> {registeredRoute?.Redirect}"
+                ? $"Get RegisteredRoute by host ({host}): {registeredRoute?.Host} -> {registeredRoute?.Upstream}"
                 : $"Get RegisteredRoute by host ({host}): not found";
 
             _logger.LogDebug(logMessage);

@@ -32,8 +32,8 @@ namespace SSLTerminate.ReverseProxy.Management.Controllers
         {
             var registeredRoute = new RegisteredRoute
             {
-                Host = model.Host,
-                Redirect = model.Redirect,
+                Host = model.Host.ToLowerInvariant(),
+                Upstream = model.Redirect.ToLowerInvariant(),
                 CreatedUtc = DateTime.UtcNow
             };
 

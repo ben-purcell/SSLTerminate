@@ -51,7 +51,7 @@ namespace SSLTerminate.ReverseProxy.Tests.Integration
             addRouteResponse.IsSuccessStatusCode.Should().BeTrue();
 
             checkRouteExistsResponse.Host.Should().Be("www.blah.com");
-            checkRouteExistsResponse.Redirect.Should().Be("blah.main.com");
+            checkRouteExistsResponse.Upstream.Should().Be("blah.main.com");
 
             deletedResponse.IsSuccessStatusCode.Should().BeTrue();
             getAfterDelete.StatusCode.Should().Be(HttpStatusCode.NotFound);

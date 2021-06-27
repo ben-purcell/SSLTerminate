@@ -6,11 +6,12 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using SharpReverseProxy;
 using SSLTerminate.ACME;
 using SSLTerminate.ReverseProxy.Common;
+using SSLTerminate.ReverseProxy.Services;
 using SSLTerminate.Storage.Postgres;
 
 namespace SSLTerminate.ReverseProxy
@@ -47,6 +48,10 @@ namespace SSLTerminate.ReverseProxy
                 .AddPostgresStores()
                 .AddPostgresWhitelist()
                 .AddReverseProxyCommonServices();
+
+            services
+                .AddTransient<HttpMessageHandler, HttpClientHandler>()
+                .AddSingleton<ReverseProxyHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +76,14 @@ namespace SSLTerminate.ReverseProxy
                 });
             });
 
-            // add proxy stuff here...
+            app.Run(async context =>
+            {
+                var handler = context
+                    .RequestServices
+                    .GetRequiredService<ReverseProxyHandler>();
+
+                await handler.Handle(context);
+            });
         }
     }
 }
