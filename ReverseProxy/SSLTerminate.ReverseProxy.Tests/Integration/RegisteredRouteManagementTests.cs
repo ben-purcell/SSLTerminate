@@ -18,7 +18,6 @@ namespace SSLTerminate.ReverseProxy.Tests.Integration
 {
     public class RegisteredRouteManagementTests
     {
-
         private static readonly string ConnectionString = Environment.GetEnvironmentVariable("SSLTERMINATE_POSTGRES_TEST_CSTRING") ??
                                                           "User ID=postgres;Password=password;Host=localhost;Port=5439;Database=postgres;Pooling=true;";
 
