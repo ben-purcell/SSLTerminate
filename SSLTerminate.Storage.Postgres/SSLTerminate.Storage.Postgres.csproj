@@ -6,7 +6,7 @@
     <Version>1.1.0</Version>
     <Authors>Ben Purcell</Authors>
     <Description>
-      Postgres stores/whitelist for host whitelist, client certificates, key authorizations and acme account details
+      Postgres stores for host whitelist, client certificates, key authorizations and acme account details
     </Description>
     <PackageProjectUrl>https://github.com/ben-purcell/SSLTerminate</PackageProjectUrl>
   </PropertyGroup>
