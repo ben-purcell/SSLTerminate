@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>41b14d2a-f790-4da6-b206-378ebd8ddb11</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SSLTerminate.Storage.Postgres\SSLTerminate.Storage.Postgres.csproj" />
+    <ProjectReference Include="..\SSLTerminate\SSLTerminate.csproj" />
+  </ItemGroup>
+
+</Project>

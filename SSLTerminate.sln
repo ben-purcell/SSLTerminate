@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSLTerminate.ACME.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSLTerminate.Storage.Postgres", "SSLTerminate.Storage.Postgres\SSLTerminate.Storage.Postgres.csproj", "{CE36998E-756A-43CC-9D6C-7134C3E32325}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSLTerminate.Storage.Postgres.Tests", "SSLTerminate.Storage.Postgres.Tests\SSLTerminate.Storage.Postgres.Tests.csproj", "{BE7E044A-C454-444D-B465-3768F5687A9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSLTerminate.Storage.Postgres.Tests", "SSLTerminate.Storage.Postgres.Tests\SSLTerminate.Storage.Postgres.Tests.csproj", "{BE7E044A-C454-444D-B465-3768F5687A9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSLTerminate.Tests.Common", "SSLTerminate.Tests.Common\SSLTerminate.Tests.Common.csproj", "{E5F08D04-D409-48F4-8170-E488E79D3896}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSLTerminate.Tests.Common", "SSLTerminate.Tests.Common\SSLTerminate.Tests.Common.csproj", "{E5F08D04-D409-48F4-8170-E488E79D3896}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSLTerminate.ReverseProxy", "SSLTerminate.ReverseProxy\SSLTerminate.ReverseProxy.csproj", "{1E880F2B-5645-4286-924A-7854976283B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{E5F08D04-D409-48F4-8170-E488E79D3896}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5F08D04-D409-48F4-8170-E488E79D3896}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5F08D04-D409-48F4-8170-E488E79D3896}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E880F2B-5645-4286-924A-7854976283B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E880F2B-5645-4286-924A-7854976283B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E880F2B-5645-4286-924A-7854976283B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E880F2B-5645-4286-924A-7854976283B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
