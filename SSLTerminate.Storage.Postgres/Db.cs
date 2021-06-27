@@ -12,26 +12,26 @@ namespace SSLTerminate.Storage.Postgres
 {
     public class Db
     {
-        public static void CreateStores(string connectionString)
+        public static void CreateTables(string connectionString)
         {
             var connection = new NpgsqlConnection(connectionString);
 
             var script = File.ReadAllText(Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "scripts", 
-                "create_tables.pgsql"));
+                "create_store_tables.pgsql"));
 
             connection.Execute(script);
         }
 
-        public static void DropStores(string connectionString)
+        public static void DropTables(string connectionString)
         {
             var connection = new NpgsqlConnection(connectionString);
 
             var script = File.ReadAllText(Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
-                "scripts", 
-                "drop_tables.pgsql"));
+                "scripts",
+                "drop_store_tables.pgsql"));
 
             connection.Execute(script);
         }

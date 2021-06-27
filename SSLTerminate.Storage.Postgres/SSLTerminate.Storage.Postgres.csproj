@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <PackageId>SSLTerminate.Storage.Postgres</PackageId>
-    <Version>1.0.3</Version>
+    <Version>1.1.0</Version>
     <Authors>Ben Purcell</Authors>
     <Description>
       Postgres stores for host whitelist, client certificates, key authorizations and acme account details
@@ -23,10 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="scripts\create_tables.pgsql">
+    <None Update="scripts\create_store_tables.pgsql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="scripts\drop_tables.pgsql">
+    <None Update="scripts\drop_store_tables.pgsql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

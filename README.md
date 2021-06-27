@@ -131,7 +131,9 @@ Each data type we need to store goes into its own table:
 To enable storage for all of the data items, add the following in Startup.cs within ```ConfigureServices```:
 
 ```csharp
-services.AddPostgresStores(options => options.ConnectionString = "<postgres-connection-string>");
+services
+    .AddPostgresConnection(options => options.ConnectionString = "<postgres-connection-string>")
+    .AddPostgresStores();
 ```
 
 **alternatively**
@@ -140,18 +142,30 @@ If you need more control over which stores are postgres vs some other option, yo
 during ```Startup.cs``` within ```ConfigureServices```:
 
 ```csharp
-serviceCollection.AddPostgresAcmeAccountStore(options => options.ConnectionString = "<postgres-connection-string>");
-serviceCollection.AddPostgresClientCertificateStore(options => options.ConnectionString = "<postgres-connection-string>");
-serviceCollection.AddPostgresKeyAuthorizationsStore(options => options.ConnectionString = "<postgres-connection-string>");
+serviceCollection
+    .AddPostgresConnection(options => options.ConnectionString = "<postgres-connection-string>")
+    .AddPostgresAcmeAccountStore()
+    .AddPostgresClientCertificateStore()
+    .AddPostgresKeyAuthorizationsStore();
 ```
 
 #### Storing whitelist in PostgreSQL
 We can store whitelisted hosts in PostgreSQL. This allows us to support adding/removing hosts from the whitelist dynamically:
 
 ```csharp
-serviceCollection.AddPostgresWhitelist(options => options.ConnectionString = "<postgres-connection-string>");
+serviceCollection.AddPostgresWhitelist();
 ```
 table: ```public.whitelistentry```
+
+Note: To use the whitelist feature the ```AddPostgresConnection(...)``` method shown above must first be called. So a 
+**full example** for PostgreSQL using both stores and white list would look like:
+
+```csharp
+services
+    .AddPostgresConnection(options => options.ConnectionString = "<postgres-connection-string>")
+    .AddPostgresStores()
+    .AddPostgresWhitelist();
+```
 
 ## Limitations
 
