@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Npgsql;
 
-namespace SSLTerminate.Storage.Postgres
+namespace SSLTerminate.ReverseProxy.Common
 {
     public class Db
     {
@@ -18,8 +18,8 @@ namespace SSLTerminate.Storage.Postgres
 
             var script = File.ReadAllText(Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
-                "scripts", 
-                "create_store_tables.pgsql"));
+                "scripts",
+                "create_reverse_proxy_tables.pgsql"));
 
             connection.Execute(script);
         }
@@ -31,7 +31,7 @@ namespace SSLTerminate.Storage.Postgres
             var script = File.ReadAllText(Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "scripts",
-                "drop_store_tables.pgsql"));
+                "drop_reverse_proxy_tables.pgsql"));
 
             connection.Execute(script);
         }

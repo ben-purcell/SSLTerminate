@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Routing.Patterns;
 using Microsoft.Extensions.Configuration;
 using SSLTerminate.ACME;
 using SSLTerminate.ReverseProxy.Common;
@@ -40,15 +39,11 @@ namespace SSLTerminate.ReverseProxy
                 };
             });
 
-            services.AddPostgresStores(options =>
-            {
-                options.ConnectionString = _configuration["SSLTerminate:ConnectionString"];
-            });
-
-            services.AddPostgresWhitelist(options =>
-            {
-                options.ConnectionString = _configuration["SSLTerminate:ConnectionString"];
-            });
+            services
+                .AddPostgresConnection(options => options.ConnectionString = _configuration["SSLTerminate:ConnectionString"])
+                .AddPostgresStores()
+                .AddPostgresWhitelist()
+                .AddReverseProxyCommonServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,19 +62,6 @@ namespace SSLTerminate.ReverseProxy
 
             app.UseEndpoints(endpoints =>
             {
-                var mode = _configuration.GetValue("Mode", Modes.ReverseProxy);
-
-                if (mode == Modes.ManageRoutes)
-                {
-                    endpoints.MapControllerRoute(
-                        "RoutesManagement",
-                        "/api/routes");
-                }
-                else
-                {
-                    // reverse proxy goes here
-                }
-
                 endpoints.MapGet("/$/alive", async context =>
                 {
                     await context.Response.WriteAsync("I'm here");

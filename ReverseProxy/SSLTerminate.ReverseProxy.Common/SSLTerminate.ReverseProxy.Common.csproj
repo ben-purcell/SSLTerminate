@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql" Version="5.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SSLTerminate.Storage.Postgres\SSLTerminate.Storage.Postgres.csproj" />
+    <ProjectReference Include="..\..\SSLTerminate\SSLTerminate.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="scripts\create_reverse_proxy_tables.pgsql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="scripts\drop_reverse_proxy_tables.pgsql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SSLTerminate.ReverseProxy.Models
+namespace SSLTerminate.ReverseProxy.Management.Models
 {
     public class AddRegisteredRouteRequest
     {

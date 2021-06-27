@@ -25,7 +25,6 @@ create table if not exists CertificateWithKey
 
 create table if not exists WhitelistEntry
 (
-	Id serial primary key,
-	Host varchar(256)  not null,
+	Host varchar(256) not null primary key,
 	CreatedUtc timestamp not null
 );

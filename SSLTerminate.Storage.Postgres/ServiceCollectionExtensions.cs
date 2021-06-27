@@ -15,55 +15,44 @@ namespace SSLTerminate.Storage.Postgres
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddPostgresStores(
-            this IServiceCollection serviceCollection,
-            Action<PostgresStorageOptions> options)
+        public static IServiceCollection AddPostgresConnection(this IServiceCollection serviceCollection, Action<PostgresStorageOptions> options)
         {
-            serviceCollection.AddPostgresAcmeAccountStore(options);
-            serviceCollection.AddPostgresClientCertificateStore(options);
-            serviceCollection.AddPostgresKeyAuthorizationsStore(options);
+            serviceCollection.Configure(options);
             return serviceCollection;
         }
 
-        public static IServiceCollection AddPostgresAcmeAccountStore(
-            this IServiceCollection serviceCollection,
-            Action<PostgresStorageOptions> options)
+        public static IServiceCollection AddPostgresStores(
+            this IServiceCollection serviceCollection)
         {
-            serviceCollection.Configure(options);
+            serviceCollection.AddPostgresAcmeAccountStore();
+            serviceCollection.AddPostgresClientCertificateStore();
+            serviceCollection.AddPostgresKeyAuthorizationsStore();
+            return serviceCollection;
+        }
 
+        public static IServiceCollection AddPostgresAcmeAccountStore(this IServiceCollection serviceCollection)
+        {
             serviceCollection.RemoveAll<IAcmeAccountStore>();
             serviceCollection.AddSingleton<IAcmeAccountStore, PostgresAcmeAccountStore>();
             return serviceCollection;
         }
 
-        public static IServiceCollection AddPostgresClientCertificateStore(
-            this IServiceCollection serviceCollection,
-            Action<PostgresStorageOptions> options)
+        public static IServiceCollection AddPostgresClientCertificateStore(this IServiceCollection serviceCollection)
         {
-            serviceCollection.Configure(options);
-
             serviceCollection.RemoveAll<IClientCertificateStore>();
             serviceCollection.AddSingleton<IClientCertificateStore, PostgresClientCertificateStore>();
             return serviceCollection;
         }
 
-        public static IServiceCollection AddPostgresKeyAuthorizationsStore(
-            this IServiceCollection serviceCollection,
-            Action<PostgresStorageOptions> options)
+        public static IServiceCollection AddPostgresKeyAuthorizationsStore(this IServiceCollection serviceCollection)
         {
-            serviceCollection.Configure(options);
-
             serviceCollection.RemoveAll<IKeyAuthorizationsStore>();
             serviceCollection.AddSingleton<IKeyAuthorizationsStore, PostgresKeyAuthorizationsStore>();
             return serviceCollection;
         }
 
-        public static IServiceCollection AddPostgresWhitelist(
-            this IServiceCollection serviceCollection,
-            Action<PostgresStorageOptions> options)
+        public static IServiceCollection AddPostgresWhitelist(this IServiceCollection serviceCollection)
         {
-            serviceCollection.Configure(options);
-
             serviceCollection.RemoveAll<IWhitelistService>();
             serviceCollection.AddSingleton<IWhitelistService, PostgresWhitelistService>();
 
