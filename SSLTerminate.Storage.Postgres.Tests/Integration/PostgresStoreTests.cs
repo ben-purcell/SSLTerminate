@@ -23,8 +23,8 @@ namespace SSLTerminate.Storage.Postgres.Tests.Integration
         [SetUp]
         public void SetUp()
         {
-            Db.DropStores(ConnectionString);
-            Db.CreateStores(ConnectionString);
+            Db.DropTables(ConnectionString);
+            Db.CreateTables(ConnectionString);
         }
 
         [Test]
@@ -148,14 +148,9 @@ namespace SSLTerminate.Storage.Postgres.Tests.Integration
             var serviceCollection = new ServiceCollection();
 
             serviceCollection
-                .AddPostgresStores(x =>
-                {
-                    x.ConnectionString = ConnectionString;
-                })
-                .AddPostgresWhitelist(x =>
-                {
-                    x.ConnectionString = ConnectionString;
-                });
+                .AddPostgresConnection(x => x.ConnectionString = ConnectionString)
+                .AddPostgresStores()
+                .AddPostgresWhitelist();
 
             serviceCollection
                 .AddTransient(typeof(ILogger<>), typeof(NullLogger<>));

@@ -49,7 +49,9 @@ namespace SSLTerminate.Storage.Postgres
             await using var connection = new NpgsqlConnection(_connectionString);
 
             const string sql =
-                "insert into WhitelistEntry (Host, CreatedUtc) values (@Host, @CreatedUtc)";
+                "insert into WhitelistEntry (Host, CreatedUtc)" +
+                " values (@Host, @CreatedUtc) " +
+                "on conflict (Host) do nothing";
 
             var rowsAffected = await connection.ExecuteAsync(sql, new WhitelistEntry
             {
@@ -78,7 +80,6 @@ namespace SSLTerminate.Storage.Postgres
 
     class WhitelistEntry
     {
-        public int Id { get; set; }
         public string Host { get; set; }
         public DateTime CreatedUtc { get; set; }
     }
